@@ -1,7 +1,6 @@
 import {defineStore} from 'pinia';
 import {computed, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {Tab} from "src/tabsets/models/Tab";
 import _ from "lodash"
 import {LocalStorage, useQuasar} from "quasar";
 import {useUtils} from "src/core/services/Utils";
@@ -11,8 +10,8 @@ import {
   SHARING_AUTHOR_IDENT,
   SHARING_AVATAR_IDENT,
 } from "boot/constants";
-import {useTabsetsStore} from "src/tabsets/stores/tabsetsStore";
 import {useFeaturesStore} from "src/features/stores/featuresStore";
+import {SidePanelViews} from "src/models/SidePanelViews";
 
 export enum DrawerTabs {
   BOOKMARKS = "bookmarks",
@@ -39,60 +38,6 @@ export enum UserLevel {
   DEFAULT = "DEFAULT"
 }
 
-export class SidePanelView {
-
-  static readonly MAIN = new SidePanelView('main', '/sidepanel');
-
-  static readonly TABS_LIST = new SidePanelView('tabsList', '/sidepanel/tabslist',
-    () => useFeaturesStore().hasFeature(FeatureIdent.OPEN_TABS));
-
-  static readonly TAGS_LIST = new SidePanelView('tagsList', '/sidepanel/tagslist',
-    () => useFeaturesStore().hasFeature(FeatureIdent.TAGS) && useTabsetsStore().allTabsCount > 0);
-
-  static readonly TAG = new SidePanelView('tag', '/sidepanel/tags');
-
-  static readonly BY_DOMAIN_LIST = new SidePanelView('byDomainList', '/sidepanel/byDomainList',
-    () => useFeaturesStore().hasFeature(FeatureIdent.GROUP_BY_DOMAIN));
-
-  static readonly RSS_LIST = new SidePanelView('rssList', '/sidepanel/rsslist',
-    () => useFeaturesStore().hasFeature(FeatureIdent.RSS));
-
-  static readonly NEWEST_TABS_LIST = new SidePanelView('newestList', '/sidepanel/newestList',
-    () => useFeaturesStore().hasFeature(FeatureIdent.NEWEST_TABS));
-
-  static readonly TOP_10_TABS_LIST = new SidePanelView('top10List', '/sidepanel/top10List',
-    () => useFeaturesStore().hasFeature(FeatureIdent.TOP10));
-
-  static readonly BOOKMARKS = new SidePanelView('bookmarks', '/sidepanel/bookmarks',
-    () => useFeaturesStore().hasFeature(FeatureIdent.BOOKMARKS)) //&& useRoute()?.path !== "/sidepanel/welcome");
-
-  static readonly PUBLIC_TABSETS = new SidePanelView('categorized_tabsets', '/sidepanel/byCategory',
-    () => true);
-
-  static readonly TAGS_VIEWER = new SidePanelView('categorized_tabsets', '/sidepanel/byCategory',
-    () => useFeaturesStore().hasFeature(FeatureIdent.TAGS));
-
-  static readonly MESSAGES = new SidePanelView('messages', '/sidepanel/messages')
-
-  static readonly TABS_AS_TREE = new SidePanelView('tabsAsTree', '/sidepanel/tabsAsTree',
-    () => useFeaturesStore().hasFeature(FeatureIdent.TABS_AS_TREE))
-
-  private constructor(
-    public readonly ident: string,
-    public readonly path: any,
-    public readonly showButtonFunction: Function = () => true) {
-  }
-
-  toString() {
-    return this.ident;
-  }
-
-  showButton() {
-    return this.showButtonFunction()
-  }
-
-}
-
 export enum ListDetailLevel {
   MINIMAL = "MINIMAL",
   SOME = "SOME",
@@ -107,20 +52,20 @@ export class RightDrawer {
 
 export class SidePanel {
 
-  relevantViews: SidePanelView[] = []
+  relevantViews: SidePanelViews[] = []
 
   constructor(
-    public activeView: SidePanelView = SidePanelView.MAIN) {
+    public activeView: SidePanelViews = SidePanelViews.MAIN) {
     // this.relevantViews.push(SidePanelView.TOP_10_TABS_LIST)
-    this.relevantViews.push(SidePanelView.TAG)
-    this.relevantViews.push(SidePanelView.TABS_LIST)
+    this.relevantViews.push(SidePanelViews.TAG)
+    this.relevantViews.push(SidePanelViews.TABS_LIST)
     // this.relevantViews.push(SidePanelView.TAGS_LIST)
-    this.relevantViews.push(SidePanelView.BOOKMARKS)
+    this.relevantViews.push(SidePanelViews.BOOKMARKS)
     //this.relevantViews.push(SidePanelView.BY_DOMAIN_LIST)
     //this.relevantViews.push(SidePanelView.NEWEST_TABS_LIST)
-    this.relevantViews.push(SidePanelView.PUBLIC_TABSETS)
-    this.relevantViews.push(SidePanelView.RSS_LIST)
-    this.relevantViews.push(SidePanelView.TAGS_VIEWER)
+    this.relevantViews.push(SidePanelViews.PUBLIC_TABSETS)
+    this.relevantViews.push(SidePanelViews.RSS_LIST)
+    this.relevantViews.push(SidePanelViews.TAGS_VIEWER)
   }
 
   public enabledViewsCount() {
@@ -140,7 +85,7 @@ export const useUiStore = defineStore('ui', () => {
 
   const {sendMsg} = useUtils()
 
-  const selectedTab = ref<Tab | undefined>(undefined)
+  //const selectedTab = ref<Tab | undefined>(undefined)
   const tabsFilter = ref<string | undefined>(undefined)
   const selectedTag = ref<string | undefined>(undefined)
   const tabsetsExpanded = ref<boolean>(false)
@@ -353,13 +298,13 @@ export const useUiStore = defineStore('ui', () => {
     rightDrawerOpen.value = true
   }
 
-  function sidePanelSetActiveView(view: SidePanelView) {
+  function sidePanelSetActiveView(view: SidePanelViews) {
     sidePanel.value.activeView = view
     router.push(view.path)
   }
 
   const sidePanelActiveViewIs = computed(() => {
-    return (viewToCompare: SidePanelView) => {
+    return (viewToCompare: SidePanelViews) => {
       return sidePanel.value.activeView?.ident === viewToCompare.ident
     }
   })
@@ -417,19 +362,19 @@ export const useUiStore = defineStore('ui', () => {
   })
 
   const sidePanelIsActive = computed(() => {
-    return (view: SidePanelView) => sidePanel.value.activeView?.ident === view.ident
+    return (view: SidePanelViews) => sidePanel.value.activeView?.ident === view.ident
   })
 
   const getContentCount = computed((): number => contentCount.value)
 
-  function setSelectedTab(tab: Tab) {
-    console.log("setting selected tab", tab)
-    selectedTab.value = tab
-  }
+  // function setSelectedTab(tab: Tab) {
+  //   console.log("setting selected tab", tab)
+  //   selectedTab.value = tab
+  // }
 
-  const getSelectedTab = computed(():Tab | undefined => {
-    return selectedTab.value as Tab | undefined
-  })
+  // const getSelectedTab = computed(():Tab | undefined => {
+  //   return selectedTab.value as Tab | undefined
+  // })
 
   // highlight url(s) feature
   function clearHighlights() {
@@ -551,8 +496,6 @@ export const useUiStore = defineStore('ui', () => {
     showMessage,
     footerInfo,
     getContentCount,
-    setSelectedTab,
-    getSelectedTab,
     newTabUrlList,
     addToNewTabUrlList,
     removeNewTabUrl,

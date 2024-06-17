@@ -12,6 +12,7 @@ import {
 } from "boot/constants";
 import {SidePanelViews} from "src/models/SidePanelViews";
 import {SidePanel} from "src/models/SidePanel";
+import Command from "src/core/domain/Command";
 
 export enum DrawerTabs {
   BOOKMARKS = "bookmarks",
@@ -377,9 +378,9 @@ export const useUiStore = defineStore('ui', () => {
     }
   }
 
-  function createSuccessToast(msg: string, action: any = undefined) {
+  function createSuccessToast(msg: string, actions: any[] = []) {
     toastTimeouts.value.forEach((timeout: NodeJS.Timeout) => clearTimeout(timeout))
-    toasts.value.push(new Toast(msg, ToastType.INFO, action))
+    toasts.value.push(new Toast(msg, ToastType.INFO, actions))
   }
 
   function createWarningToast(msg: string, action: any = undefined) {
@@ -412,8 +413,8 @@ export const useUiStore = defineStore('ui', () => {
   function callUndoActionFromCurrentToast() {
     if (toasts.value.length > 0) {
       const toast = toasts.value[0]
-      console.log("applying undo method...")
-      toast.action.handler.apply(null)
+      console.log("applying (first) undo/action method...")
+      toast.actions[0].handler.apply(null)
       removeToast(toast)
     }
   }

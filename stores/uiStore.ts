@@ -2,9 +2,8 @@ import {defineStore} from 'pinia';
 import {computed, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import _ from "lodash"
-import {LocalStorage, useQuasar} from "quasar";
+import {LocalStorage} from "quasar";
 import {useUtils} from "src/core/services/Utils";
-import {FeatureIdent} from "src/models/FeatureIdent";
 import {Toast, ToastType} from "src/core/models/Toast";
 import {
   SHARING_AUTHOR_IDENT,

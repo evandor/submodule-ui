@@ -12,7 +12,6 @@ import {
 } from "boot/constants";
 import {SidePanelViews} from "src/models/SidePanelViews";
 import {SidePanel} from "src/models/SidePanel";
-import Command from "src/core/domain/Command";
 
 export enum DrawerTabs {
   BOOKMARKS = "bookmarks",
@@ -394,7 +393,7 @@ export const useUiStore = defineStore('ui', () => {
   }
 
   function removeToast(toast: Toast) {
-    const index = _.findIndex(toasts.value, t => t.id === toast.id)
+    const index = _.findIndex(toasts.value, (t:Toast) => t.id === toast.id)
     if (index >= 0) {
       toasts.value.splice(index, 1)
     }

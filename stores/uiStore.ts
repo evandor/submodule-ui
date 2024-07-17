@@ -90,7 +90,7 @@ export const useUiStore = defineStore('ui', () => {
 
   const contentCount = ref<number>(0)
 
-  const listDetailLevel = ref<ListDetailLevel>(LocalStorage.getItem('ui.detailLevel') || ListDetailLevel.MAXIMAL)
+  const listDetailLevel = ref<ListDetailLevel>(LocalStorage.getItem('ui.detailLevel') || ListDetailLevel.SOME)
   const showFullUrls = ref<boolean>(LocalStorage.getItem('ui.fullUrls') || false)
   const showDetailsPerTabset = ref<boolean>(LocalStorage.getItem('ui.detailsPerTabset') || false)
 
@@ -294,6 +294,7 @@ export const useUiStore = defineStore('ui', () => {
 
   const listDetailLevelGreaterEqual = computed(() => {
     return (level: ListDetailLevel, tabsetDetail: ListDetailLevel | undefined) => {
+      //console.log("userLevel", tabsetDetail, listDetailLevel.value)
       let useLevel = tabsetDetail ? tabsetDetail : listDetailLevel.value
       if (!useUiStore().showDetailsPerTabset) {
         useLevel = listDetailLevel.value

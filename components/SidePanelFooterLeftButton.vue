@@ -31,7 +31,7 @@ const props = defineProps({
 const router = useRouter()
 
 const isActive = () => useUiStore().sidePanelIsActive(props.sidePanelView)
-const activateView = (view: SidePanelView) => useUiStore().sidePanelSetActiveView(view)
+const activateView = (view: SidePanelViews) => useUiStore().sidePanelSetActiveView(view)
 
 const showButton = () => props.sidePanelView?.showButton()
 //const leftButtonClass = () => "q-my-xs q-ml-xs q-mr-none q-px-xs"

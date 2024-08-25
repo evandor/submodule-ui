@@ -31,7 +31,7 @@ const props = defineProps({
 const router = useRouter()
 
 const isActive = () => useUiStore().sidePanelIsActive(props.sidePanelView)
-const activateView = (view: SidePanelView) => useUiStore().sidePanelSetActiveView(view)
+const activateView = (view: SidePanelViews) => useUiStore().sidePanelSetActiveView(view)
 
 const showItem = () => props.sidePanelView?.showButton()
 
@@ -41,7 +41,7 @@ const toggleView = () => {
     router.push("/sidepanel")
   } else {
     activateView(props.sidePanelView)
-    props.sidePanelView === SidePanelView.MAIN ?
+    props.sidePanelView === SidePanelViews.MAIN ?
       router.push("/sidepanel") :
       router.push("/sidepanel/" + props.sidePanelView)
   }

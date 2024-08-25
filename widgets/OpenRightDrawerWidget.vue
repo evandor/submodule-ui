@@ -1,5 +1,5 @@
 <template>
-  <q-icon v-if="!uiStore.rightDrawerOpen && useUiStore().userLevel === UserLevel.DEFAULT"
+  <q-icon
           class="cursor-pointer q-ml-lg" size="1.3em"
           name="chevron_left" @click="openRightDrawer()">
     <q-tooltip class="tooltip">Show the right drawer again</q-tooltip>

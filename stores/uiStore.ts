@@ -5,10 +5,7 @@ import _ from "lodash"
 import {LocalStorage} from "quasar";
 import {useUtils} from "src/core/services/Utils";
 import {Toast, ToastType} from "src/core/models/Toast";
-import {
-  SHARING_AUTHOR_IDENT,
-  SHARING_AVATAR_IDENT,
-} from "boot/constants";
+import {SHARING_AUTHOR_IDENT, SHARING_AVATAR_IDENT,} from "boot/constants";
 import {SidePanelViews} from "src/models/SidePanelViews";
 import {SidePanel} from "src/models/SidePanel";
 
@@ -122,7 +119,6 @@ export const useUiStore = defineStore('ui', () => {
 
   const toolbarFilter = ref(false)
   const toolbarFilterTerm = ref('')
-  const detailsPerTabset = ref(false)
 
   // tabset description
   const tabsetDescriptionPanelHights = ref<object>(LocalStorage.getItem('ui.descriptionPanelHeights') as unknown as object || {})

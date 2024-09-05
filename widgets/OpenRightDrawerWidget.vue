@@ -8,9 +8,7 @@
 
 <script lang="ts" setup>
 
-import {UserLevel, useUiStore} from "src/ui/stores/uiStore";
-
-const uiStore = useUiStore()
+import {useUiStore} from "src/ui/stores/uiStore";
 
 const openRightDrawer = () => {
   console.log("opening drawer...")

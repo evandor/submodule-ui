@@ -389,7 +389,7 @@ export const useUiStore = defineStore('ui', () => {
   }
 
   function removeToast(toast: Toast) {
-    const index = _.findIndex(toasts.value, (t:Toast) => t.id === toast.id)
+    const index = _.findIndex(toasts.value, (t: Toast) => t.id === toast.id)
     if (index >= 0) {
       toasts.value.splice(index, 1)
     }
@@ -424,10 +424,11 @@ export const useUiStore = defineStore('ui', () => {
     return "19px"
   }
 
-  function setProgress(v: number, label: string) {
+  function setProgress(v: number, label: string | undefined = undefined) {
+    const val = Math.max(0, Math.min(v, 1.0))
     progress.value = {
-      val: Math.max(0, Math.min(v, 1.0)),
-      label
+      val: val,
+      label: label ? label : Math.round(100 * val) + "%"
     }
   }
 

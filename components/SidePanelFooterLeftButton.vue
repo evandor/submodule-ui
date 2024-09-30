@@ -3,7 +3,7 @@
          :icon="props.icon"
          :class="leftButtonClass()"
          flat
-         :color="isActive() ? 'secondary':''"
+         :color="isActive() ? 'secondary': props.defaultColor"
          :size="props.size"
          @click="toggleView()">
     <q-tooltip v-if="props.tooltip"
@@ -25,7 +25,8 @@ const props = defineProps({
   sidePanelView: {type: Object as PropType<SidePanelViews>, required: true},
   icon: {type: String, required: true},
   size: {type: String, default: "9px"},
-  tooltip: {type: String, required: false}
+  tooltip: {type: String, required: false},
+  defaultColor: {type: String, default: ''}
 })
 
 const router = useRouter()

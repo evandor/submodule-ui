@@ -433,6 +433,10 @@ export const useUiStore = defineStore('ui', () => {
     }
   }
 
+  function stopProgress() {
+    progress.value = undefined
+  }
+
   function startButtonAnimation(name: string) {
     switch (name) {
       case 'newTabset':
@@ -517,6 +521,7 @@ export const useUiStore = defineStore('ui', () => {
     bookmarksLoading,
     progress,
     setProgress,
+    stopProgress,
     animateNewTabsetButton,
     animateSettingsButton,
     animateBookmarksButton,

@@ -61,6 +61,7 @@ export const useUiStore = defineStore('ui', () => {
   const appLoading = ref<string | undefined>(undefined)
   const bookmarksLoading = ref<boolean>(false)
   const progress = ref<object | undefined>(undefined)
+  const commandExecuting = ref(false)
 
   // online offline
   const networkOnline = ref(navigator.onLine)
@@ -529,6 +530,7 @@ export const useUiStore = defineStore('ui', () => {
     showLoginTable,
     showSwitchedToLocalInfo,
     syncing,
-    saving
+    saving,
+    commandExecuting
   }
 })

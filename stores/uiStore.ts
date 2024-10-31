@@ -76,6 +76,7 @@ export const useUiStore = defineStore('ui', () => {
   let sidePanel = ref<SidePanel>(new SidePanel())
   const animateNewTabsetButton = ref(false)
   const animateSettingsButton = ref(false)
+  const animateAddtabButton = ref(false)
   const animateBookmarksButton = ref(false)
 
   const showLoginTable = ref(false)
@@ -452,6 +453,10 @@ export const useUiStore = defineStore('ui', () => {
         animateSettingsButton.value = true
         setTimeout(() => animateSettingsButton.value = false, 2000)
         break;
+      case 'addtab':
+        animateAddtabButton.value = true
+        setTimeout(() => animateAddtabButton.value = false, 2000)
+        break;
       default:
         console.log("unrecognized element name", name)
     }
@@ -526,6 +531,7 @@ export const useUiStore = defineStore('ui', () => {
     animateNewTabsetButton,
     animateSettingsButton,
     animateBookmarksButton,
+    animateAddtabButton,
     startButtonAnimation,
     showLoginTable,
     showSwitchedToLocalInfo,

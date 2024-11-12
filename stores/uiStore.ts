@@ -92,6 +92,7 @@ export const useUiStore = defineStore('ui', () => {
 
   const listDetailLevel = ref<ListDetailLevel>(LocalStorage.getItem('ui.detailLevel') || ListDetailLevel.SOME)
   const showFullUrls = ref<boolean>(LocalStorage.getItem('ui.fullUrls') || false)
+  const hideIndicatorIcon = ref<boolean>(LocalStorage.getItem('ui.hideIndicatorIcon') || false)
   const showDetailsPerTabset = ref<boolean>(LocalStorage.getItem('ui.detailsPerTabset') || false)
 
   // info Messages
@@ -289,6 +290,11 @@ export const useUiStore = defineStore('ui', () => {
 
   function setShowFullUrls(val: boolean) {
     showFullUrls.value = val
+  }
+
+  function setHideIndicatorIcon(val: boolean) {
+    console.log("setting indicator icon to", val)
+    hideIndicatorIcon.value = val
   }
 
   const listDetailLevelGreaterEqual = computed(() => {
@@ -492,8 +498,10 @@ export const useUiStore = defineStore('ui', () => {
     tabsFilter,
     setListDetailLevel,
     setShowFullUrls,
+    setHideIndicatorIcon,
     listDetailLevel,
     showFullUrls,
+    hideIndicatorIcon,
     listDetailLevelGreaterEqual,
     dbReady,
     dbSyncing,

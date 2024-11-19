@@ -17,7 +17,7 @@
 import {useUiStore} from "src/ui/stores/uiStore";
 import {PropType} from "vue";
 import {useRouter} from "vue-router";
-import {SidePanelViews} from "src/models/SidePanelViews";
+import {SidePanelViews} from "src/app/models/SidePanelViews";
 
 const props = defineProps({
   sidePanelView: {type: Object as PropType<SidePanelViews>, required: true},

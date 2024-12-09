@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia';
-import {computed, ref, watch} from "vue";
+import {computed, ref, watch, watchEffect} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import _ from "lodash"
 import {LocalStorage} from "quasar";
@@ -65,6 +65,7 @@ export const useUiStore = defineStore('ui', () => {
 
   // online offline
   const networkOnline = ref(navigator.onLine)
+  const networkState = ref<object>({})
 
   // RightDrawer
   let rightDrawer = ref<RightDrawer>(new RightDrawer())
@@ -184,6 +185,25 @@ export const useUiStore = defineStore('ui', () => {
       LocalStorage.set("ui.hiddenInfoMessages", thresholdsVal)
     }, {deep: true}
   )
+
+  function checkConnection() {
+    console.log("testing nav connection")
+    // @ts-ignore
+    var conn = navigator.connection
+    if (!conn) {
+      console.log("no navigator connection information available")
+    } else {
+      console.log(`Effective network type: ${conn.effectiveType}`);
+      console.log(`Downlink Speed: ${conn.downlink}Mb/s`);
+      console.log(`Round Trip Time: ${conn.rtt}ms`);
+      networkState.value = {
+        type: conn.effectiveType,
+        speed: conn.downlink,
+        rtt: conn.rtt
+      }
+    }
+
+  }
 
   function draggingTab(tabId: string, evt: DragEvent, doSendMessage = false) {
     tabBeingDragged.value = tabId
@@ -552,6 +572,8 @@ export const useUiStore = defineStore('ui', () => {
     showSwitchedToLocalInfo,
     syncing,
     saving,
-    commandExecuting
+    commandExecuting,
+    checkConnection,
+    networkState
   }
 })

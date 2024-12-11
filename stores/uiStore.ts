@@ -40,6 +40,12 @@ export enum ListDetailLevel {
   MAXIMAL = "MAXIMAL"
 }
 
+export enum FontSize {
+  DEFAULT = "DEFAULT",
+  LARGE = "LARGE",
+  LARGER = "LARGER"
+}
+
 export class RightDrawer {
   constructor(
     public activeTab: DrawerTabs = DrawerTabs.OPEN_TABS) {
@@ -90,6 +96,8 @@ export const useUiStore = defineStore('ui', () => {
   const footerInfo = ref<string | undefined>(undefined)
 
   const contentCount = ref<number>(0)
+
+  const fontsize = ref<FontSize>(LocalStorage.getItem('ui.fontsize') || FontSize.DEFAULT)
 
   const listDetailLevel = ref<ListDetailLevel>(LocalStorage.getItem('ui.detailLevel') || ListDetailLevel.SOME)
   const showFullUrls = ref<boolean>(LocalStorage.getItem('ui.fullUrls') || false)
@@ -321,6 +329,18 @@ export const useUiStore = defineStore('ui', () => {
     console.log("setting indicator icon to", val)
     hideIndicatorIcon.value = val
   }
+
+  function setFontsize(val: FontSize) {
+    fontsize.value = val
+    if (val && val === FontSize.LARGE) {
+      document.body.style.setProperty("font-size", "20px")
+    }
+    if (val && val === FontSize.LARGER) {
+      document.body.style.setProperty("font-size", "25px")
+    }
+
+  }
+
 
   const listDetailLevelGreaterEqual = computed(() => {
     return (level: ListDetailLevel, tabsetDetail: ListDetailLevel | undefined) => {
@@ -574,6 +594,8 @@ export const useUiStore = defineStore('ui', () => {
     saving,
     commandExecuting,
     checkConnection,
-    networkState
+    networkState,
+    fontsize,
+    setFontsize
   }
 })

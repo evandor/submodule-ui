@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia';
-import {computed, ref, watch, watchEffect} from "vue";
+import {computed, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import _ from "lodash"
 import {LocalStorage} from "quasar";
@@ -452,8 +452,8 @@ export const useUiStore = defineStore('ui', () => {
   function delayedToastRemoval(delay: number = 3000) {
     if (toasts.value.length > 0) {
       const toast = toasts.value[0]
-      let timeout = setTimeout(() => {
-        removeToast(toast)
+      const timeout = setTimeout(() => {
+        removeToast(toast!)
       }, delay)
       toastTimeouts.value.push(timeout)
     }
@@ -463,8 +463,8 @@ export const useUiStore = defineStore('ui', () => {
     if (toasts.value.length > 0) {
       const toast = toasts.value[0]
       console.log("applying (first) undo/action method...")
-      toast.actions[0].handler.apply(null)
-      removeToast(toast)
+      toast!.actions[0].handler.apply(null)
+      removeToast(toast!)
     }
   }
 

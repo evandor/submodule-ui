@@ -143,6 +143,8 @@ export const useUiStore = defineStore('ui', () => {
   // info e.g. when stopping to sync
   const showSwitchedToLocalInfo = ref<boolean>(false)
 
+  const importedBookmarks = ref<string[]>([])
+
   watch(rightDrawer.value, (val: Object) => {
     LocalStorage.set("ui.rightDrawer", val)
   }, {deep: true})
@@ -596,6 +598,7 @@ export const useUiStore = defineStore('ui', () => {
     checkConnection,
     networkState,
     fontsize,
-    setFontsize
+    setFontsize,
+    importedBookmarks
   }
 })

@@ -58,7 +58,6 @@ export const useUiStore = defineStore('ui', () => {
 
   const {sendMsg} = useUtils()
 
-  //const selectedTab = ref<Tab | undefined>(undefined)
   const tabsFilter = ref<string | undefined>(undefined)
   const selectedTag = ref<string | undefined>(undefined)
   const tabsetsExpanded = ref<boolean>(false)
@@ -101,6 +100,7 @@ export const useUiStore = defineStore('ui', () => {
 
   const listDetailLevel = ref<ListDetailLevel>(LocalStorage.getItem('ui.detailLevel') || ListDetailLevel.SOME)
   const showFullUrls = ref<boolean>(LocalStorage.getItem('ui.fullUrls') || false)
+  const overlapIndicator = ref<boolean>(LocalStorage.getItem('ui.overlapIndicator') || false)
   const contentScriptLoggingOff = ref<boolean>(LocalStorage.getItem('ui.contentScriptLoggingOff') || false)
   const hideIndicatorIcon = ref<boolean>(LocalStorage.getItem('ui.hideIndicatorIcon') || false)
   const showDetailsPerTabset = ref<boolean>(LocalStorage.getItem('ui.detailsPerTabset') || false)
@@ -323,6 +323,10 @@ export const useUiStore = defineStore('ui', () => {
     showFullUrls.value = val
   }
 
+  function setOverlapIndicator(val: boolean) {
+    overlapIndicator.value = val
+  }
+
   function setContentScriptLoggingOff(val: boolean) {
     contentScriptLoggingOff.value = val
   }
@@ -334,13 +338,18 @@ export const useUiStore = defineStore('ui', () => {
 
   function setFontsize(val: FontSize) {
     fontsize.value = val
-    if (val && val === FontSize.LARGE) {
-      document.body.style.setProperty("font-size", "20px")
+    if (val) {
+      switch (val) {
+        case FontSize.LARGE:
+          document.body.style.setProperty("font-size", "20px")
+          break
+        case FontSize.LARGER:
+          document.body.style.setProperty("font-size", "24px")
+          break
+        default:
+          document.body.style.setProperty("font-size", "16px")
+      }
     }
-    if (val && val === FontSize.LARGER) {
-      document.body.style.setProperty("font-size", "25px")
-    }
-
   }
 
 
@@ -545,10 +554,12 @@ export const useUiStore = defineStore('ui', () => {
     tabsFilter,
     setListDetailLevel,
     setShowFullUrls,
+    setOverlapIndicator,
     setHideIndicatorIcon,
     setContentScriptLoggingOff,
     listDetailLevel,
     showFullUrls,
+    overlapIndicator,
     hideIndicatorIcon,
     contentScriptLoggingOff,
     listDetailLevelGreaterEqual,

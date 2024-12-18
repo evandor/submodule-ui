@@ -198,7 +198,7 @@ export const useUiStore = defineStore('ui', () => {
 
   function checkConnection() {
     console.log("testing nav connection")
-    // @ts-expect-error
+    // @ts-expect-error TODO
     var conn = navigator.connection
     if (!conn) {
       console.log("no navigator connection information available")
@@ -249,27 +249,25 @@ export const useUiStore = defineStore('ui', () => {
     console.log("setting height", tabsetId, height)
 
     if (!tabsetDescriptionPanelHights.value[tabsetId as keyof object]) {
-      // @ts-expect-error
+      // @ts-expect-error TODO
       tabsetDescriptionPanelHights.value[tabsetId as keyof object] = {}
     }
-    // @ts-expect-error
+    // @ts-expect-error TODO
     tabsetDescriptionPanelHights.value[tabsetId as keyof object]['height'] = height
   }
 
   function getTabsetDescriptionHeight(tabsetId: string): number | undefined {
-    // @ts-expect-error
     return tabsetDescriptionPanelHights.value[tabsetId as keyof object] ?
       tabsetDescriptionPanelHights.value[tabsetId as keyof object]['height']
       : undefined
   }
 
   function setShowTabsetDescription(tabsetId: string, show: boolean): boolean {
-    // @ts-expect-error
+    // @ts-expect-error TODO
     return tabsetDescriptionPanelHights.value[tabsetId as keyof object]['show'] = show
   }
 
   function showTabsetDescription(tabsetId: string): boolean {
-    // @ts-expect-error
     const res = tabsetDescriptionPanelHights.value[tabsetId as keyof object]['show'] as boolean | undefined
     //console.log("got res", res)
     if (res === undefined) {

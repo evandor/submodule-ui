@@ -1,62 +1,59 @@
-import {defineStore} from 'pinia';
-import {computed, ref, watch} from "vue";
-import {useRoute, useRouter} from "vue-router";
-import _ from "lodash"
-import {LocalStorage} from "quasar";
-import {useUtils} from "src/core/services/Utils";
-import {Toast, ToastType} from "src/core/models/Toast";
-import {SHARING_AUTHOR_IDENT, SHARING_AVATAR_IDENT,} from "src/boot/constants";
-import {SidePanel} from "src/app/models/SidePanel";
-import {SidePanelViews} from "src/app/models/SidePanelViews";
+import { defineStore } from 'pinia'
+import { computed, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import _ from 'lodash'
+import { LocalStorage } from 'quasar'
+import { useUtils } from 'src/core/services/Utils'
+import { Toast, ToastType } from 'src/core/models/Toast'
+import { SHARING_AUTHOR_IDENT, SHARING_AVATAR_IDENT } from 'src/boot/constants'
+import { SidePanel } from 'src/app/models/SidePanel'
+import { SidePanelViews } from 'src/app/models/SidePanelViews'
 
 export enum DrawerTabs {
-  BOOKMARKS = "bookmarks",
-  OPEN_TABS = "openTabs",
-  UNASSIGNED_TABS = "unassignedTabs",
-  GROUP_BY_HOST_TABS = "groupedByHostTabs",
-  SAVED_TABS = "savedTabs",
-  SAVED_TABS_AS_PDF = "savedTabsPdf",
-  SAVED_TABS_AS_PNG = "savedTabsPng",
-  RSS = "rss",
-  SCHEDULED = "scheduled",
-  HISTORY = "history",
-  FEATURES = "features",
-  TAB_DETAILS = "tabDetails",
-  TABSET_DETAILS = "tabsetDetails",
-  NEW_TAB_URLS = "newTabUrls",
-  TAGS_VIEWER = "tagsViewer",
-  TAG_VIEWER = "tagViewer",
-  HELP = "help"
+  BOOKMARKS = 'bookmarks',
+  OPEN_TABS = 'openTabs',
+  UNASSIGNED_TABS = 'unassignedTabs',
+  GROUP_BY_HOST_TABS = 'groupedByHostTabs',
+  SAVED_TABS = 'savedTabs',
+  SAVED_TABS_AS_PDF = 'savedTabsPdf',
+  SAVED_TABS_AS_PNG = 'savedTabsPng',
+  RSS = 'rss',
+  SCHEDULED = 'scheduled',
+  HISTORY = 'history',
+  FEATURES = 'features',
+  TAB_DETAILS = 'tabDetails',
+  TABSET_DETAILS = 'tabsetDetails',
+  NEW_TAB_URLS = 'newTabUrls',
+  TAGS_VIEWER = 'tagsViewer',
+  TAG_VIEWER = 'tagViewer',
+  HELP = 'help',
 }
 
 export enum UserLevel {
-  UNKNOWN = "UNKNOWN",
-  DEFAULT = "DEFAULT"
+  UNKNOWN = 'UNKNOWN',
+  DEFAULT = 'DEFAULT',
 }
 
 export enum ListDetailLevel {
-  MINIMAL = "MINIMAL",
-  SOME = "SOME",
-  MAXIMAL = "MAXIMAL"
+  MINIMAL = 'MINIMAL',
+  SOME = 'SOME',
+  MAXIMAL = 'MAXIMAL',
 }
 
 export enum FontSize {
-  DEFAULT = "DEFAULT",
-  LARGE = "LARGE",
-  LARGER = "LARGER"
+  DEFAULT = 'DEFAULT',
+  LARGE = 'LARGE',
+  LARGER = 'LARGER',
 }
 
 export class RightDrawer {
-  constructor(
-    public activeTab: DrawerTabs = DrawerTabs.OPEN_TABS) {
-  }
+  constructor(public activeTab: DrawerTabs = DrawerTabs.OPEN_TABS) {}
 }
 
 export const useUiStore = defineStore('ui', () => {
-
   const router = useRouter()
 
-  const {sendMsg} = useUtils()
+  const { sendMsg } = useUtils()
 
   const tabsFilter = ref<string | undefined>(undefined)
   const selectedTag = ref<string | undefined>(undefined)
@@ -89,7 +86,9 @@ export const useUiStore = defineStore('ui', () => {
 
   const highlightTerm = ref<string | undefined>(undefined)
 
-  const newTabsetEmptyByDefault = ref<boolean>(LocalStorage.getItem('ui.newTabsetEmptyByDefault') as unknown as boolean || false)
+  const newTabsetEmptyByDefault = ref<boolean>(
+    (LocalStorage.getItem('ui.newTabsetEmptyByDefault') as unknown as boolean) || false,
+  )
   const tabBeingDragged = ref<string | undefined>(undefined)
   const dragEvent = ref<DragEvent | undefined>(undefined)
   const footerInfo = ref<string | undefined>(undefined)
@@ -98,15 +97,21 @@ export const useUiStore = defineStore('ui', () => {
 
   const fontsize = ref<FontSize>(LocalStorage.getItem('ui.fontsize') || FontSize.DEFAULT)
 
-  const listDetailLevel = ref<ListDetailLevel>(LocalStorage.getItem('ui.detailLevel') || ListDetailLevel.SOME)
+  const listDetailLevel = ref<ListDetailLevel>(
+    LocalStorage.getItem('ui.detailLevel') || ListDetailLevel.SOME,
+  )
   const showFullUrls = ref<boolean>(LocalStorage.getItem('ui.fullUrls') || false)
   const overlapIndicator = ref<boolean>(LocalStorage.getItem('ui.overlapIndicator') || false)
-  const contentScriptLoggingOff = ref<boolean>(LocalStorage.getItem('ui.contentScriptLoggingOff') || false)
+  const contentScriptLoggingOff = ref<boolean>(
+    LocalStorage.getItem('ui.contentScriptLoggingOff') || false,
+  )
   const hideIndicatorIcon = ref<boolean>(LocalStorage.getItem('ui.hideIndicatorIcon') || false)
   const showDetailsPerTabset = ref<boolean>(LocalStorage.getItem('ui.detailsPerTabset') || false)
 
   // info Messages
-  const hiddenMessages = ref<string[]>(LocalStorage.getItem('ui.hiddenInfoMessages') as unknown as string[] || [])
+  const hiddenMessages = ref<string[]>(
+    (LocalStorage.getItem('ui.hiddenInfoMessages') as unknown as string[]) || [],
+  )
   const messageAlreadyShown = ref<string | undefined>(undefined)
 
   const toasts = ref<Toast[]>([])
@@ -116,7 +121,9 @@ export const useUiStore = defineStore('ui', () => {
   const highlightUrls = ref<string[]>([])
 
   // new tab feature
-  const newTabUrlList = ref<object[]>(LocalStorage.getItem('ui.newTabUrlList') as unknown as object[] || [])
+  const newTabUrlList = ref<object[]>(
+    (LocalStorage.getItem('ui.newTabUrlList') as unknown as object[]) || [],
+  )
 
   // listener currently triggered on '/' keypress for search keyboard shortcut
   const ignoreKeypress = ref(false)
@@ -135,98 +142,106 @@ export const useUiStore = defineStore('ui', () => {
   const toolbarFilterTerm = ref('')
 
   // tabset description
-  const tabsetDescriptionPanelHights = ref<object>(LocalStorage.getItem('ui.descriptionPanelHeights') as unknown as object || {})
+  const tabsetDescriptionPanelHights = ref<object>(
+    (LocalStorage.getItem('ui.descriptionPanelHeights') as unknown as object) || {},
+  )
 
-  const sharingAuthor = ref<string>(LocalStorage.getItem(SHARING_AUTHOR_IDENT) as unknown as string || '')
-  const sharingAvatar = ref<string>(LocalStorage.getItem(SHARING_AVATAR_IDENT) as unknown as string || '')
+  const sharingAuthor = ref<string>(
+    (LocalStorage.getItem(SHARING_AUTHOR_IDENT) as unknown as string) || '',
+  )
+  const sharingAvatar = ref<string>(
+    (LocalStorage.getItem(SHARING_AVATAR_IDENT) as unknown as string) || '',
+  )
 
   // info e.g. when stopping to sync
   const showSwitchedToLocalInfo = ref<boolean>(false)
 
   const importedBookmarks = ref<string[]>([])
 
-  watch(rightDrawer.value, (val: Object) => {
-    LocalStorage.set("ui.rightDrawer", val)
-  }, {deep: true})
-
-  watch(newTabsetEmptyByDefault,
+  watch(
+    rightDrawer.value,
     (val: Object) => {
-      LocalStorage.set("ui.newTabsetEmptyByDefault", val)
-    })
+      LocalStorage.set('ui.rightDrawer', val)
+    },
+    { deep: true },
+  )
 
-  watch(newTabUrlList,
-    (val: object[]) => {
-      console.log("newTabUrlList", val)
-      LocalStorage.set("ui.newTabUrlList", val)
-    })
+  watch(newTabsetEmptyByDefault, (val: Object) => {
+    LocalStorage.set('ui.newTabsetEmptyByDefault', val)
+  })
 
-  watch(newTabUrlList.value,
-    (val: object[]) => {
-      console.log("val", val)
-      LocalStorage.set("ui.newTabUrlList", val)
-    })
+  watch(newTabUrlList, (val: object[]) => {
+    console.log('newTabUrlList', val)
+    LocalStorage.set('ui.newTabUrlList', val)
+  })
 
-  watch(tabsetDescriptionPanelHights.value,
-    (val: object) => {
-      LocalStorage.set("ui.descriptionPanelHeights", val)
-    })
+  watch(newTabUrlList.value, (val: object[]) => {
+    console.log('val', val)
+    LocalStorage.set('ui.newTabUrlList', val)
+  })
 
-  watch(sharingAuthor,
-    (val: string | undefined) => {
-      console.log("val", val)
-      LocalStorage.set(SHARING_AUTHOR_IDENT, val)
-    })
+  watch(tabsetDescriptionPanelHights.value, (val: object) => {
+    LocalStorage.set('ui.descriptionPanelHeights', val)
+  })
 
-  watch(sharingAvatar,
-    (val: string | undefined) => {
-      console.log("val", val)
-      LocalStorage.set(SHARING_AVATAR_IDENT, val)
-    })
+  watch(sharingAuthor, (val: string | undefined) => {
+    console.log('val', val)
+    LocalStorage.set(SHARING_AUTHOR_IDENT, val)
+  })
+
+  watch(sharingAvatar, (val: string | undefined) => {
+    console.log('val', val)
+    LocalStorage.set(SHARING_AVATAR_IDENT, val)
+  })
 
   const route = useRoute()
-  watch(route, (to) => {
-    // console.log("resetting", messageAlreadyShown.value)
-    setAnotherMessageAlreadyShown(undefined)
-  }, {flush: 'pre', immediate: true, deep: true})
+  watch(
+    route,
+    (to) => {
+      // console.log("resetting", messageAlreadyShown.value)
+      setAnotherMessageAlreadyShown(undefined)
+    },
+    { flush: 'pre', immediate: true, deep: true },
+  )
 
   watch(
     hiddenMessages,
     (thresholdsVal: Object) => {
-      LocalStorage.set("ui.hiddenInfoMessages", thresholdsVal)
-    }, {deep: true}
+      LocalStorage.set('ui.hiddenInfoMessages', thresholdsVal)
+    },
+    { deep: true },
   )
 
   function checkConnection() {
-    console.log("testing nav connection")
+    console.log('testing nav connection')
     // @ts-expect-error TODO
     var conn = navigator.connection
     if (!conn) {
-      console.log("no navigator connection information available")
+      console.log('no navigator connection information available')
     } else {
-      console.log(`Effective network type: ${conn.effectiveType}`);
-      console.log(`Downlink Speed: ${conn.downlink}Mb/s`);
-      console.log(`Round Trip Time: ${conn.rtt}ms`);
+      console.log(`Effective network type: ${conn.effectiveType}`)
+      console.log(`Downlink Speed: ${conn.downlink}Mb/s`)
+      console.log(`Round Trip Time: ${conn.rtt}ms`)
       networkState.value = {
         type: conn.effectiveType,
         speed: conn.downlink,
-        rtt: conn.rtt
+        rtt: conn.rtt,
       }
     }
-
   }
 
   function draggingTab(tabId: string, evt: DragEvent, doSendMessage = false) {
     tabBeingDragged.value = tabId
     dragEvent.value = evt
     if (doSendMessage) {
-      sendMsg("tab-being-dragged", {
-        tabId: tabId
+      sendMsg('tab-being-dragged', {
+        tabId: tabId,
       })
     }
   }
 
   function droppingTab() {
-    console.log("dropping tab", tabBeingDragged.value)
+    console.log('dropping tab', tabBeingDragged.value)
     const tabBeingDropped = tabBeingDragged.value
     tabBeingDragged.value = undefined
     dragEvent.value = undefined
@@ -246,7 +261,7 @@ export const useUiStore = defineStore('ui', () => {
   }
 
   function setTabsetDescriptionHeight(tabsetId: string, height: number) {
-    console.log("setting height", tabsetId, height)
+    console.log('setting height', tabsetId, height)
 
     if (!tabsetDescriptionPanelHights.value[tabsetId as keyof object]) {
       // @ts-expect-error TODO
@@ -257,18 +272,20 @@ export const useUiStore = defineStore('ui', () => {
   }
 
   function getTabsetDescriptionHeight(tabsetId: string): number | undefined {
-    return tabsetDescriptionPanelHights.value[tabsetId as keyof object] ?
-      tabsetDescriptionPanelHights.value[tabsetId as keyof object]['height']
+    return tabsetDescriptionPanelHights.value[tabsetId as keyof object]
+      ? tabsetDescriptionPanelHights.value[tabsetId as keyof object]['height']
       : undefined
   }
 
   function setShowTabsetDescription(tabsetId: string, show: boolean): boolean {
     // @ts-expect-error TODO
-    return tabsetDescriptionPanelHights.value[tabsetId as keyof object]['show'] = show
+    return (tabsetDescriptionPanelHights.value[tabsetId as keyof object]['show'] = show)
   }
 
   function showTabsetDescription(tabsetId: string): boolean {
-    const res = tabsetDescriptionPanelHights.value[tabsetId as keyof object]['show'] as boolean | undefined
+    const res = tabsetDescriptionPanelHights.value[tabsetId as keyof object]['show'] as
+      | boolean
+      | undefined
     //console.log("got res", res)
     if (res === undefined) {
       return true
@@ -276,13 +293,12 @@ export const useUiStore = defineStore('ui', () => {
     return res
   }
 
-
   function hideInfoMessage(ident: string) {
     hiddenMessages.value.push(ident)
   }
 
   function restoreHints() {
-    console.log("hiddenMessages.value", hiddenMessages.value)
+    console.log('hiddenMessages.value', hiddenMessages.value)
     hiddenMessages.value = []
     setAnotherMessageAlreadyShown(undefined)
   }
@@ -308,7 +324,6 @@ export const useUiStore = defineStore('ui', () => {
     }
   })
 
-
   function setHighlightTerm(term: string | undefined) {
     highlightTerm.value = term
   }
@@ -330,7 +345,7 @@ export const useUiStore = defineStore('ui', () => {
   }
 
   function setHideIndicatorIcon(val: boolean) {
-    console.log("setting indicator icon to", val)
+    console.log('setting indicator icon to', val)
     hideIndicatorIcon.value = val
   }
 
@@ -339,17 +354,16 @@ export const useUiStore = defineStore('ui', () => {
     if (val) {
       switch (val) {
         case FontSize.LARGE:
-          document.body.style.setProperty("font-size", "20px")
+          document.body.style.setProperty('font-size', '20px')
           break
         case FontSize.LARGER:
-          document.body.style.setProperty("font-size", "24px")
+          document.body.style.setProperty('font-size', '24px')
           break
         default:
-          document.body.style.setProperty("font-size", "16px")
+          document.body.style.setProperty('font-size', '16px')
       }
     }
   }
-
 
   const listDetailLevelGreaterEqual = computed(() => {
     return (level: ListDetailLevel, tabsetDetail: ListDetailLevel | undefined) => {
@@ -381,7 +395,10 @@ export const useUiStore = defineStore('ui', () => {
       }
       const couldBeShown = Math.random() < probability
       //console.log("could be shown", couldBeShown, messageAlreadyShown.value)
-      if (couldBeShown && (messageAlreadyShown.value === undefined || messageAlreadyShown.value === ident)) {
+      if (
+        couldBeShown &&
+        (messageAlreadyShown.value === undefined || messageAlreadyShown.value === ident)
+      ) {
         setAnotherMessageAlreadyShown(ident)
         return true
       } else if (messageAlreadyShown.value) {
@@ -418,7 +435,7 @@ export const useUiStore = defineStore('ui', () => {
   const getHighlightUrls = computed(() => highlightUrls.value)
 
   function ignoreKeypressListener() {
-    return ignoreKeypress.value;
+    return ignoreKeypress.value
   }
 
   function setIgnoreKeypress(b: boolean) {
@@ -471,7 +488,7 @@ export const useUiStore = defineStore('ui', () => {
   function callUndoActionFromCurrentToast() {
     if (toasts.value.length > 0) {
       const toast = toasts.value[0]
-      console.log("applying (first) undo/action method...")
+      console.log('applying (first) undo/action method...')
       toast!.actions[0].handler.apply(null)
       removeToast(toast!)
     }
@@ -481,17 +498,17 @@ export const useUiStore = defineStore('ui', () => {
     if (ident === 'sidePanelFooter') {
       const viewsCount = sidePanel.value.enabledViewsCount()
       const limit = Math.min(viewsCount, 7)
-      return (16 - limit) + "px"
+      return 16 - limit + 'px'
     }
-    console.log("warning, using unknown ident", ident)
-    return "19px"
+    console.log('warning, using unknown ident', ident)
+    return '19px'
   }
 
   function setProgress(v: number, label: string | undefined = undefined) {
     const val = Math.max(0, Math.min(v, 1.0))
     progress.value = {
       val: val,
-      label: label ? label : Math.round(100 * val) + "%"
+      label: label ? label : Math.round(100 * val) + '%',
     }
   }
 
@@ -503,22 +520,22 @@ export const useUiStore = defineStore('ui', () => {
     switch (name) {
       case 'newTabset':
         animateNewTabsetButton.value = true
-        setTimeout(() => animateNewTabsetButton.value = false, 2000)
-        break;
+        setTimeout(() => (animateNewTabsetButton.value = false), 2000)
+        break
       case 'bookmarks':
         animateBookmarksButton.value = true
-        setTimeout(() => animateBookmarksButton.value = false, 2000)
-        break;
+        setTimeout(() => (animateBookmarksButton.value = false), 2000)
+        break
       case 'settings':
         animateSettingsButton.value = true
-        setTimeout(() => animateSettingsButton.value = false, 2000)
-        break;
+        setTimeout(() => (animateSettingsButton.value = false), 2000)
+        break
       case 'addtab':
         animateAddtabButton.value = true
-        setTimeout(() => animateAddtabButton.value = false, 2000)
-        break;
+        setTimeout(() => (animateAddtabButton.value = false), 2000)
+        break
       default:
-        console.log("unrecognized element name", name)
+        console.log('unrecognized element name', name)
     }
   }
 
@@ -608,6 +625,6 @@ export const useUiStore = defineStore('ui', () => {
     networkState,
     fontsize,
     setFontsize,
-    importedBookmarks
+    importedBookmarks,
   }
 })

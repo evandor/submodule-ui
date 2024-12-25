@@ -11,6 +11,6 @@
   </q-btn>
 </template>
 <script setup lang="ts">
-import { useUiStore } from 'src/ui/stores/uiStore'
 import { SidePanelViews } from 'src/app/models/SidePanelViews'
+import { useUiStore } from 'src/ui/stores/uiStore'
 </script>

@@ -5,8 +5,7 @@
     flat
     class="q-ma-none q-pa-xs cursor-pointer"
     style="max-width: 20px"
-    size="10px"
-  >
+    size="10px">
     <q-tooltip class="tooltip">Close this view</q-tooltip>
   </q-btn>
 </template>

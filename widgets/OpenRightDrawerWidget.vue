@@ -1,10 +1,5 @@
 <template>
-  <q-icon
-    class="cursor-pointer q-ml-lg"
-    size="1.3em"
-    name="chevron_left"
-    @click="openRightDrawer()"
-  >
+  <q-icon class="cursor-pointer q-ml-lg" size="1.3em" name="chevron_left" @click="openRightDrawer()">
     <q-tooltip class="tooltip">Show the right drawer again</q-tooltip>
   </q-icon>
 </template>

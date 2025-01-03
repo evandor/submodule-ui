@@ -6,16 +6,10 @@
     flat
     :color="isActive() ? 'secondary' : props.defaultColor"
     :size="props.size"
-    @click="toggleView()"
-  >
-    <q-tooltip
-      v-if="props.tooltip"
-      :delay="700"
-      anchor="top middle"
-      self="bottom middle"
-      class="tooltip-small"
-      >{{ props.tooltip }}</q-tooltip
-    >
+    @click="toggleView()">
+    <q-tooltip v-if="props.tooltip" :delay="700" anchor="top middle" self="bottom middle" class="tooltip-small">{{
+      props.tooltip
+    }}</q-tooltip>
     <slot></slot>
   </q-btn>
 </template>

@@ -97,21 +97,15 @@ export const useUiStore = defineStore('ui', () => {
 
   const fontsize = ref<FontSize>(LocalStorage.getItem('ui.fontsize') || FontSize.DEFAULT)
 
-  const listDetailLevel = ref<ListDetailLevel>(
-    LocalStorage.getItem('ui.detailLevel') || ListDetailLevel.SOME,
-  )
+  const listDetailLevel = ref<ListDetailLevel>(LocalStorage.getItem('ui.detailLevel') || ListDetailLevel.SOME)
   const showFullUrls = ref<boolean>(LocalStorage.getItem('ui.fullUrls') || false)
   const overlapIndicator = ref<boolean>(LocalStorage.getItem('ui.overlapIndicator') || false)
-  const contentScriptLoggingOff = ref<boolean>(
-    LocalStorage.getItem('ui.contentScriptLoggingOff') || false,
-  )
+  const contentScriptLoggingOff = ref<boolean>(LocalStorage.getItem('ui.contentScriptLoggingOff') || false)
   const hideIndicatorIcon = ref<boolean>(LocalStorage.getItem('ui.hideIndicatorIcon') || false)
   const showDetailsPerTabset = ref<boolean>(LocalStorage.getItem('ui.detailsPerTabset') || false)
 
   // info Messages
-  const hiddenMessages = ref<string[]>(
-    (LocalStorage.getItem('ui.hiddenInfoMessages') as unknown as string[]) || [],
-  )
+  const hiddenMessages = ref<string[]>((LocalStorage.getItem('ui.hiddenInfoMessages') as unknown as string[]) || [])
   const messageAlreadyShown = ref<string | undefined>(undefined)
 
   const toasts = ref<Toast[]>([])
@@ -121,9 +115,7 @@ export const useUiStore = defineStore('ui', () => {
   const highlightUrls = ref<string[]>([])
 
   // new tab feature
-  const newTabUrlList = ref<object[]>(
-    (LocalStorage.getItem('ui.newTabUrlList') as unknown as object[]) || [],
-  )
+  const newTabUrlList = ref<object[]>((LocalStorage.getItem('ui.newTabUrlList') as unknown as object[]) || [])
 
   // listener currently triggered on '/' keypress for search keyboard shortcut
   const ignoreKeypress = ref(false)
@@ -146,12 +138,8 @@ export const useUiStore = defineStore('ui', () => {
     (LocalStorage.getItem('ui.descriptionPanelHeights') as unknown as object) || {},
   )
 
-  const sharingAuthor = ref<string>(
-    (LocalStorage.getItem(SHARING_AUTHOR_IDENT) as unknown as string) || '',
-  )
-  const sharingAvatar = ref<string>(
-    (LocalStorage.getItem(SHARING_AVATAR_IDENT) as unknown as string) || '',
-  )
+  const sharingAuthor = ref<string>((LocalStorage.getItem(SHARING_AUTHOR_IDENT) as unknown as string) || '')
+  const sharingAvatar = ref<string>((LocalStorage.getItem(SHARING_AVATAR_IDENT) as unknown as string) || '')
 
   // info e.g. when stopping to sync
   const showSwitchedToLocalInfo = ref<boolean>(false)
@@ -283,9 +271,7 @@ export const useUiStore = defineStore('ui', () => {
   }
 
   function showTabsetDescription(tabsetId: string): boolean {
-    const res = tabsetDescriptionPanelHights.value[tabsetId as keyof object]['show'] as
-      | boolean
-      | undefined
+    const res = tabsetDescriptionPanelHights.value[tabsetId as keyof object]['show'] as boolean | undefined
     //console.log("got res", res)
     if (res === undefined) {
       return true
@@ -395,10 +381,7 @@ export const useUiStore = defineStore('ui', () => {
       }
       const couldBeShown = Math.random() < probability
       //console.log("could be shown", couldBeShown, messageAlreadyShown.value)
-      if (
-        couldBeShown &&
-        (messageAlreadyShown.value === undefined || messageAlreadyShown.value === ident)
-      ) {
+      if (couldBeShown && (messageAlreadyShown.value === undefined || messageAlreadyShown.value === ident)) {
         setAnotherMessageAlreadyShown(ident)
         return true
       } else if (messageAlreadyShown.value) {

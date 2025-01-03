@@ -1,12 +1,5 @@
 <template>
-  <q-item
-    v-if="showItem()"
-    @click="toggleView()"
-    :disable="props.disable"
-    dense
-    clickable
-    v-close-popup
-  >
+  <q-item v-if="showItem()" @click="toggleView()" :disable="props.disable" dense clickable v-close-popup>
     <q-item-section avatar>
       <q-icon :color="isActive() ? 'primary' : 'secondary'" :name="props.icon" size="xs" />
     </q-item-section>

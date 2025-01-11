@@ -64,6 +64,7 @@ export const useUiStore = defineStore('ui', () => {
   const bookmarksLoading = ref<boolean>(false)
   const progress = ref<object | undefined>(undefined)
   const commandExecuting = ref(false)
+  const watermark = ref('')
 
   // online offline
   const networkOnline = ref(navigator.onLine)
@@ -351,6 +352,10 @@ export const useUiStore = defineStore('ui', () => {
     }
   }
 
+  function setWatermark(text: string) {
+    watermark.value = text
+  }
+
   const listDetailLevelGreaterEqual = computed(() => {
     return (level: ListDetailLevel, tabsetDetail: ListDetailLevel | undefined) => {
       //console.log("userLevel", tabsetDetail, listDetailLevel.value)
@@ -487,6 +492,10 @@ export const useUiStore = defineStore('ui', () => {
     return '19px'
   }
 
+  function getWatermark() {
+    return watermark.value
+  }
+
   function setProgress(v: number, label: string | undefined = undefined) {
     const val = Math.max(0, Math.min(v, 1.0))
     progress.value = {
@@ -609,5 +618,7 @@ export const useUiStore = defineStore('ui', () => {
     fontsize,
     setFontsize,
     importedBookmarks,
+    getWatermark,
+    setWatermark,
   }
 })

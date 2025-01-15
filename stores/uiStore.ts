@@ -558,5 +558,7 @@ export const useUiStore = defineStore('ui', () => {
     fontsize,
     setFontsize,
     importedBookmarks,
+    getWatermark,
+    setWatermark,
   }
 })

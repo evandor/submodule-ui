@@ -29,11 +29,6 @@ export enum DrawerTabs {
   HELP = 'help',
 }
 
-export enum UserLevel {
-  UNKNOWN = 'UNKNOWN',
-  DEFAULT = 'DEFAULT',
-}
-
 export enum ListDetailLevel {
   MINIMAL = 'MINIMAL',
   SOME = 'SOME',
@@ -102,7 +97,6 @@ export const useUiStore = defineStore('ui', () => {
   const showFullUrls = ref<boolean>(LocalStorage.getItem('ui.fullUrls') || false)
   const overlapIndicator = ref<boolean>(LocalStorage.getItem('ui.overlapIndicator') || false)
   const contentScriptLoggingOff = ref<boolean>(LocalStorage.getItem('ui.contentScriptLoggingOff') || false)
-  const hideIndicatorIcon = ref<boolean>(LocalStorage.getItem('ui.hideIndicatorIcon') || false)
   const showDetailsPerTabset = ref<boolean>(LocalStorage.getItem('ui.detailsPerTabset') || false)
 
   // info Messages
@@ -241,45 +235,6 @@ export const useUiStore = defineStore('ui', () => {
     selectedTag.value = tag
   }
 
-  function addToNewTabUrlList(l: object) {
-    newTabUrlList.value.push(l)
-  }
-
-  function removeNewTabUrl(url: string) {
-    newTabUrlList.value = _.filter(newTabUrlList.value, (e: any) => e.url !== url)
-  }
-
-  function setTabsetDescriptionHeight(tabsetId: string, height: number) {
-    console.log('setting height', tabsetId, height)
-
-    if (!tabsetDescriptionPanelHights.value[tabsetId as keyof object]) {
-      // @ts-expect-error TODO
-      tabsetDescriptionPanelHights.value[tabsetId as keyof object] = {}
-    }
-    // @ts-expect-error TODO
-    tabsetDescriptionPanelHights.value[tabsetId as keyof object]['height'] = height
-  }
-
-  function getTabsetDescriptionHeight(tabsetId: string): number | undefined {
-    return tabsetDescriptionPanelHights.value[tabsetId as keyof object]
-      ? tabsetDescriptionPanelHights.value[tabsetId as keyof object]['height']
-      : undefined
-  }
-
-  function setShowTabsetDescription(tabsetId: string, show: boolean): boolean {
-    // @ts-expect-error TODO
-    return (tabsetDescriptionPanelHights.value[tabsetId as keyof object]['show'] = show)
-  }
-
-  function showTabsetDescription(tabsetId: string): boolean {
-    const res = tabsetDescriptionPanelHights.value[tabsetId as keyof object]['show'] as boolean | undefined
-    //console.log("got res", res)
-    if (res === undefined) {
-      return true
-    }
-    return res
-  }
-
   function hideInfoMessage(ident: string) {
     hiddenMessages.value.push(ident)
   }
@@ -329,11 +284,6 @@ export const useUiStore = defineStore('ui', () => {
 
   function setContentScriptLoggingOff(val: boolean) {
     contentScriptLoggingOff.value = val
-  }
-
-  function setHideIndicatorIcon(val: boolean) {
-    console.log('setting indicator icon to', val)
-    hideIndicatorIcon.value = val
   }
 
   function setFontsize(val: FontSize) {
@@ -545,13 +495,10 @@ export const useUiStore = defineStore('ui', () => {
     footerInfo,
     getContentCount,
     newTabUrlList,
-    addToNewTabUrlList,
-    removeNewTabUrl,
     clearHighlights,
     addHighlight,
     getHighlightUrls,
     ignoreKeypressListener,
-    setIgnoreKeypress,
     entityType,
     highlightTerm,
     setHighlightTerm,
@@ -562,12 +509,10 @@ export const useUiStore = defineStore('ui', () => {
     setListDetailLevel,
     setShowFullUrls,
     setOverlapIndicator,
-    setHideIndicatorIcon,
     setContentScriptLoggingOff,
     listDetailLevel,
     showFullUrls,
     overlapIndicator,
-    hideIndicatorIcon,
     contentScriptLoggingOff,
     listDetailLevelGreaterEqual,
     dbReady,
@@ -580,7 +525,6 @@ export const useUiStore = defineStore('ui', () => {
     tabsetsExpanded,
     showCurrentTabBox,
     toolbarFilter,
-    toggleToolbarFilter,
     toolbarFilterTerm,
     toasts,
     createSuccessToast,
@@ -590,10 +534,6 @@ export const useUiStore = defineStore('ui', () => {
     callUndoActionFromCurrentToast,
     getButtonSize,
     showDetailsPerTabset,
-    setTabsetDescriptionHeight,
-    getTabsetDescriptionHeight,
-    setShowTabsetDescription,
-    showTabsetDescription,
     sharingAuthor,
     sharingAvatar,
     networkOnline,
@@ -618,7 +558,5 @@ export const useUiStore = defineStore('ui', () => {
     fontsize,
     setFontsize,
     importedBookmarks,
-    getWatermark,
-    setWatermark,
   }
 })

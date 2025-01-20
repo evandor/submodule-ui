@@ -12,6 +12,7 @@ import { useRoute, useRouter } from 'vue-router'
 export enum DrawerTabs {
   BOOKMARKS = 'bookmarks',
   OPEN_TABS = 'openTabs',
+  SESSIONS = 'sessions',
   UNASSIGNED_TABS = 'unassignedTabs',
   GROUP_BY_HOST_TABS = 'groupedByHostTabs',
   SAVED_TABS = 'savedTabs',

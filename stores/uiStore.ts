@@ -135,6 +135,8 @@ export const useUiStore = defineStore('ui', () => {
   )
 
   const sharingAuthor = ref<string>((LocalStorage.getItem(SHARING_AUTHOR_IDENT) as unknown as string) || '')
+
+  // still used?
   const sharingAvatar = ref<string>((LocalStorage.getItem(SHARING_AVATAR_IDENT) as unknown as string) || '')
 
   // info e.g. when stopping to sync

@@ -35,9 +35,11 @@ const toggleView = () => {
     router.push('/sidepanel')
   } else {
     activateView(props.sidePanelView)
-    props.sidePanelView === SidePanelViews.MAIN
-      ? router.push('/sidepanel')
-      : router.push('/sidepanel/' + props.sidePanelView?.ident)
+    if (props.sidePanelView === SidePanelViews.MAIN) {
+      router.push('/sidepanel')
+    } else {
+      router.push('/sidepanel/' + props.sidePanelView?.ident)
+    }
   }
 }
 </script>

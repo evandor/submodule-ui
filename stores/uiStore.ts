@@ -6,6 +6,7 @@ import { SidePanelViews } from 'src/app/models/SidePanelViews'
 import { SHARING_AUTHOR_IDENT, SHARING_AVATAR_IDENT } from 'src/boot/constants'
 import { Toast, ToastType } from 'src/core/models/Toast'
 import { useUtils } from 'src/core/services/Utils'
+import { AnimationIdentifier } from 'src/ui/models/Animations'
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -78,6 +79,7 @@ export const useUiStore = defineStore('ui', () => {
   const animateSettingsButton = ref(false)
   const animateAddtabButton = ref(false)
   const animateBookmarksButton = ref(false)
+  const animateTabsListButton = ref(false)
 
   const showLoginTable = ref(false)
 
@@ -461,7 +463,7 @@ export const useUiStore = defineStore('ui', () => {
     progress.value = undefined
   }
 
-  function startButtonAnimation(name: string) {
+  function startButtonAnimation(name: AnimationIdentifier) {
     switch (name) {
       case 'newTabset':
         animateNewTabsetButton.value = true
@@ -470,6 +472,10 @@ export const useUiStore = defineStore('ui', () => {
       case 'bookmarks':
         animateBookmarksButton.value = true
         setTimeout(() => (animateBookmarksButton.value = false), 2000)
+        break
+      case 'tabsList':
+        animateTabsListButton.value = true
+        setTimeout(() => (animateTabsListButton.value = false), 2000)
         break
       case 'settings':
         animateSettingsButton.value = true
@@ -549,6 +555,7 @@ export const useUiStore = defineStore('ui', () => {
     animateNewTabsetButton,
     animateSettingsButton,
     animateBookmarksButton,
+    animateTabsListButton,
     animateAddtabButton,
     startButtonAnimation,
     showLoginTable,

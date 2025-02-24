@@ -31,11 +31,7 @@ export enum DrawerTabs {
   HELP = 'help',
 }
 
-export enum ListDetailLevel {
-  MINIMAL = 'MINIMAL',
-  SOME = 'SOME',
-  MAXIMAL = 'MAXIMAL',
-}
+export type ListDetailLevel = 'MINIMAL' | 'SOME' | 'MAXIMAL'
 
 export enum FontSize {
   DEFAULT = 'DEFAULT',
@@ -96,7 +92,7 @@ export const useUiStore = defineStore('ui', () => {
 
   const fontsize = ref<FontSize>(LocalStorage.getItem('ui.fontsize') || FontSize.DEFAULT)
 
-  const listDetailLevel = ref<ListDetailLevel>(LocalStorage.getItem('ui.detailLevel') || ListDetailLevel.SOME)
+  const listDetailLevel = ref<ListDetailLevel>(LocalStorage.getItem('ui.detailLevel') || 'SOME')
   const showFullUrls = ref<boolean>(LocalStorage.getItem('ui.fullUrls') || false)
   const overlapIndicator = ref<boolean>(LocalStorage.getItem('ui.overlapIndicator') || false)
   const contentScriptLoggingOff = ref<boolean>(LocalStorage.getItem('ui.contentScriptLoggingOff') || false)
@@ -320,12 +316,12 @@ export const useUiStore = defineStore('ui', () => {
       }
       //console.log("useLevel", useLevel)
       switch (useLevel) {
-        case ListDetailLevel.MAXIMAL:
+        case 'MAXIMAL':
           return true
-        case ListDetailLevel.SOME:
-          return level === ListDetailLevel.SOME || level === ListDetailLevel.MINIMAL
-        case ListDetailLevel.MINIMAL:
-          return level === ListDetailLevel.MINIMAL
+        case 'SOME':
+          return level === 'SOME' || level === 'MINIMAL'
+        case 'MINIMAL':
+          return level === 'MINIMAL'
       }
     }
   })

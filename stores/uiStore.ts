@@ -48,7 +48,6 @@ export const useUiStore = defineStore('ui', () => {
 
   const { sendMsg } = useUtils()
 
-  const tabsFilter = ref<string | undefined>(undefined)
   const selectedTag = ref<string | undefined>(undefined)
   const tabsetsExpanded = ref<boolean>(false)
   const syncing = ref<boolean>(false)
@@ -510,7 +509,6 @@ export const useUiStore = defineStore('ui', () => {
     selectedTag,
     setSelectedTag,
     selectedTabsetId,
-    tabsFilter,
     setListDetailLevel,
     setShowFullUrls,
     setOverlapIndicator,

@@ -57,6 +57,10 @@ export const useUiStore = defineStore('ui', () => {
   const progress = ref<object | undefined>(undefined)
   const commandExecuting = ref(false)
   const watermark = ref('')
+  const logs = ref<string[]>([])
+  const warningCount = ref(0)
+  const errorCount = ref(0)
+  const showTabsetList = ref(true)
 
   // online offline
   const networkOnline = ref(navigator.onLine)
@@ -485,6 +489,24 @@ export const useUiStore = defineStore('ui', () => {
     }
   }
 
+  function log(line: string) {
+    const anonymizeUrls = line.replaceAll('/https:\\/\\/...([^\'"])*/gm', 'https://(...)')
+    logs.value.push(anonymizeUrls)
+  }
+
+  function increaseWarningCount() {
+    warningCount.value += 1
+  }
+
+  function increaseErrorCount() {
+    errorCount.value += 1
+  }
+
+  function hideTabsetList(hide: boolean) {
+    console.log('hide', hide)
+    showTabsetList.value = !hide
+  }
+
   return {
     rightDrawer,
     rightDrawerOpen,
@@ -564,5 +586,13 @@ export const useUiStore = defineStore('ui', () => {
     importedBookmarks,
     getWatermark,
     setWatermark,
+    log,
+    logs,
+    increaseWarningCount,
+    increaseErrorCount,
+    warningCount,
+    errorCount,
+    hideTabsetList,
+    showTabsetList,
   }
 })

@@ -34,6 +34,8 @@ export enum DrawerTabs {
 export type ListDetailLevel = 'MINIMAL' | 'SOME' | 'MAXIMAL'
 
 export enum FontSize {
+  SMALLER = 'SMALLER',
+  SMALL = 'SMALL',
   DEFAULT = 'DEFAULT',
   LARGE = 'LARGE',
   LARGER = 'LARGER',
@@ -294,6 +296,12 @@ export const useUiStore = defineStore('ui', () => {
     fontsize.value = val
     if (val) {
       switch (val) {
+        case FontSize.SMALLER:
+          document.body.style.setProperty('font-size', '12px')
+          break
+        case FontSize.SMALL:
+          document.body.style.setProperty('font-size', '14px')
+          break
         case FontSize.LARGE:
           document.body.style.setProperty('font-size', '20px')
           break
@@ -314,7 +322,7 @@ export const useUiStore = defineStore('ui', () => {
     return (level: ListDetailLevel, tabsetDetail: ListDetailLevel | undefined) => {
       //console.log("userLevel", tabsetDetail, listDetailLevel.value)
       let useLevel = tabsetDetail ? tabsetDetail : listDetailLevel.value
-      if (!useUiStore().showDetailsPerTabset) {
+      if (!showDetailsPerTabset) {
         useLevel = listDetailLevel.value
       }
       //console.log("useLevel", useLevel)
@@ -326,6 +334,16 @@ export const useUiStore = defineStore('ui', () => {
         case 'MINIMAL':
           return level === 'MINIMAL'
       }
+    }
+  })
+
+  const listDetailLevelEquals = computed(() => {
+    return (level: ListDetailLevel, tabsetDetail: ListDetailLevel | undefined) => {
+      let useLevel = tabsetDetail ? tabsetDetail : listDetailLevel.value
+      if (!showDetailsPerTabset) {
+        useLevel = listDetailLevel.value
+      }
+      return useLevel === level
     }
   })
 
@@ -540,6 +558,7 @@ export const useUiStore = defineStore('ui', () => {
     overlapIndicator,
     contentScriptLoggingOff,
     listDetailLevelGreaterEqual,
+    listDetailLevelEquals,
     dbReady,
     dbSyncing,
     sidePanel,

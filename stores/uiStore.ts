@@ -41,6 +41,8 @@ export enum FontSize {
   LARGER = 'LARGER',
 }
 
+export type FolderAppearance = 'expand' | 'goInto'
+
 export class RightDrawer {
   constructor(public activeTab: DrawerTabs = DrawerTabs.OPEN_TABS) {}
 }
@@ -96,6 +98,7 @@ export const useUiStore = defineStore('ui', () => {
   const contentCount = ref<number>(0)
 
   const fontsize = ref<FontSize>(LocalStorage.getItem('ui.fontsize') || FontSize.DEFAULT)
+  const folderStyle = ref<FolderAppearance>(LocalStorage.getItem('ui.folder.style') || 'goInto')
 
   const listDetailLevel = ref<ListDetailLevel>(LocalStorage.getItem('ui.detailLevel') || 'MINIMAL')
   const showFullUrls = ref<boolean>(LocalStorage.getItem('ui.fullUrls') || false)
@@ -312,6 +315,10 @@ export const useUiStore = defineStore('ui', () => {
           document.body.style.setProperty('font-size', '16px')
       }
     }
+  }
+
+  function setFolderStyle(val: FolderAppearance) {
+    folderStyle.value = val
   }
 
   function setWatermark(text: string) {
@@ -602,6 +609,8 @@ export const useUiStore = defineStore('ui', () => {
     networkState,
     fontsize,
     setFontsize,
+    folderStyle,
+    setFolderStyle,
     importedBookmarks,
     getWatermark,
     setWatermark,

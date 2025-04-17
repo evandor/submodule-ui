@@ -401,10 +401,6 @@ export const useUiStore = defineStore('ui', () => {
 
   const getHighlightUrls = computed(() => highlightUrls.value)
 
-  function ignoreKeypressListener() {
-    return ignoreKeypress.value
-  }
-
   function setIgnoreKeypress(b: boolean) {
     ignoreKeypress.value = b
   }
@@ -549,7 +545,6 @@ export const useUiStore = defineStore('ui', () => {
     clearHighlights,
     addHighlight,
     getHighlightUrls,
-    ignoreKeypressListener,
     entityType,
     highlightTerm,
     setHighlightTerm,

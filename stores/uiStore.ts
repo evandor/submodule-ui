@@ -42,6 +42,7 @@ export enum FontSize {
 }
 
 export type FolderAppearance = 'expand' | 'goInto'
+export type ToolbarIntegration = 'none' | 'tabsets' | 'all'
 
 export class RightDrawer {
   constructor(public activeTab: DrawerTabs = DrawerTabs.OPEN_TABS) {}

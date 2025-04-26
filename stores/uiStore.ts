@@ -31,7 +31,7 @@ export enum DrawerTabs {
   HELP = 'help',
 }
 
-export type ListDetailLevel = 'MINIMAL' | 'SOME' | 'MAXIMAL'
+export type ListDetailLevel = 'MINIMAL' | 'SOME' | 'MAXIMAL' | 'DEFAULT'
 
 export enum FontSize {
   SMALLER = 'SMALLER',
@@ -327,20 +327,29 @@ export const useUiStore = defineStore('ui', () => {
   }
 
   const listDetailLevelGreaterEqual = computed(() => {
-    return (level: ListDetailLevel, tabsetDetail: ListDetailLevel | undefined) => {
-      //console.log("userLevel", tabsetDetail, listDetailLevel.value)
-      let useLevel = tabsetDetail ? tabsetDetail : listDetailLevel.value
-      if (!showDetailsPerTabset) {
-        useLevel = listDetailLevel.value
+    return (
+      thresholdLevel: ListDetailLevel,
+      tabsetDetailLevel: ListDetailLevel | undefined = undefined,
+      forceLevel: ListDetailLevel | undefined = undefined,
+    ): boolean => {
+      // console.log(`>>> Thres. ${thresholdLevel}, forced: ${forceLevel}, from tabset: ${tabsetDetailLevel}`)
+      let useLevel = forceLevel ? forceLevel : listDetailLevel.value
+      if (showDetailsPerTabset.value && !forceLevel && tabsetDetailLevel) {
+        useLevel = tabsetDetailLevel
+        if (tabsetDetailLevel === 'DEFAULT') {
+          useLevel = listDetailLevel.value
+        }
       }
-      //console.log("useLevel", useLevel)
+      // console.log('useLevel', useLevel)
       switch (useLevel) {
         case 'MAXIMAL':
           return true
         case 'SOME':
-          return level === 'SOME' || level === 'MINIMAL'
+          return thresholdLevel === 'SOME' || thresholdLevel === 'MINIMAL'
         case 'MINIMAL':
-          return level === 'MINIMAL'
+          return thresholdLevel === 'MINIMAL'
+        case 'DEFAULT':
+          return true
       }
     }
   })
@@ -348,7 +357,7 @@ export const useUiStore = defineStore('ui', () => {
   const listDetailLevelEquals = computed(() => {
     return (level: ListDetailLevel, tabsetDetail: ListDetailLevel | undefined) => {
       let useLevel = tabsetDetail ? tabsetDetail : listDetailLevel.value
-      if (!showDetailsPerTabset) {
+      if (!showDetailsPerTabset.value) {
         useLevel = listDetailLevel.value
       }
       return useLevel === level

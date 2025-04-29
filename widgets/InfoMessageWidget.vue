@@ -12,7 +12,7 @@
       </div>
       <div class="row q-pa-xs">
         <div class="2"></div>
-        <div class="col text-caption">
+        <div class="col text-body1">
           {{ props.hint }}
           <slot></slot>
         </div>
@@ -27,7 +27,7 @@ import { useUiStore } from 'src/ui/stores/uiStore'
 const props = defineProps({
   ident: { type: String, required: true },
   hint: { type: String, required: false },
-  cssClass: { type: String, default: 'q-pa-md q-gutter-sm' },
+  cssClass: { type: String, default: 'documentation' },
   // even if this is set to 1.0, showMessage might return "false", e.g.
   // when another message is already shown
   probability: { type: Number, default: 1 },

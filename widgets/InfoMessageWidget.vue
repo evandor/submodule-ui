@@ -1,33 +1,30 @@
 <template>
-  <div :class="cssClass" v-if="showHint()">
-    <q-banner inline-actions rounded style="border: 1px solid grey">
-      <div class="row q-pa-xs">
-        <div class="2">
-          <q-icon name="o_lightbulb" color="warning" size="1.3em" />
-        </div>
-        <div class="col text-right cursor-pointer" @click="hideMessage(props.ident)">
-          x
+  <q-banner inline-actions rounded class="hint" v-if="showHint()">
+    <div class="row q-pa-xs">
+      <div class="col-11 text-body1" :class="$q.dark.isActive ? 'text-grey-3' : 'text-grey-8'">
+        <q-icon name="o_lightbulb" color="warning" size="1.3em" />
+        {{ props.hint }}
+        <slot></slot>
+      </div>
+      <div class="col text-right">
+        <q-icon name="o_cancel" size="xs" class="cursor-pointer" color="primary" @click="hideMessage(props.ident)">
           <q-tooltip>close this info message</q-tooltip>
-        </div>
+        </q-icon>
       </div>
-      <div class="row q-pa-xs">
-        <div class="2"></div>
-        <div class="col text-body1">
-          {{ props.hint }}
-          <slot></slot>
-        </div>
-      </div>
-    </q-banner>
-  </div>
+    </div>
+  </q-banner>
 </template>
 
 <script lang="ts" setup>
+import { useQuasar } from 'quasar'
 import { useUiStore } from 'src/ui/stores/uiStore'
+
+const $q = useQuasar()
 
 const props = defineProps({
   ident: { type: String, required: true },
   hint: { type: String, required: false },
-  cssClass: { type: String, default: 'documentation' },
+  cssClass: { type: String, default: 'hint' },
   // even if this is set to 1.0, showMessage might return "false", e.g.
   // when another message is already shown
   probability: { type: Number, default: 1 },

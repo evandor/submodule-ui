@@ -105,7 +105,7 @@ export const useUiStore = defineStore('ui', () => {
   const showFullUrls = ref<boolean>(LocalStorage.getItem('ui.fullUrls') || false)
   const overlapIndicator = ref<boolean>(LocalStorage.getItem('ui.overlapIndicator') || false)
   const contentScriptLoggingOff = ref<boolean>(LocalStorage.getItem('ui.contentScriptLoggingOff') || false)
-  const showDetailsPerTabset = ref<boolean>(LocalStorage.getItem('ui.detailsPerTabset') || false)
+  // const showDetailsPerTabset = ref<boolean>(LocalStorage.getItem('ui.detailsPerTabset') || false)
 
   // info Messages
   const hiddenMessages = ref<string[]>((LocalStorage.getItem('ui.hiddenInfoMessages') as unknown as string[]) || [])
@@ -334,7 +334,7 @@ export const useUiStore = defineStore('ui', () => {
     ): boolean => {
       // console.log(`>>> Thres. ${thresholdLevel}, forced: ${forceLevel}, from tabset: ${tabsetDetailLevel}`)
       let useLevel = forceLevel ? forceLevel : listDetailLevel.value
-      if (showDetailsPerTabset.value && !forceLevel && tabsetDetailLevel) {
+      if (!forceLevel && tabsetDetailLevel) {
         useLevel = tabsetDetailLevel
         if (tabsetDetailLevel === 'DEFAULT') {
           useLevel = listDetailLevel.value
@@ -357,9 +357,6 @@ export const useUiStore = defineStore('ui', () => {
   const listDetailLevelEquals = computed(() => {
     return (level: ListDetailLevel, tabsetDetail: ListDetailLevel | undefined) => {
       let useLevel = tabsetDetail ? tabsetDetail : listDetailLevel.value
-      if (!showDetailsPerTabset.value) {
-        useLevel = listDetailLevel.value
-      }
       return useLevel === level
     }
   })
@@ -589,7 +586,6 @@ export const useUiStore = defineStore('ui', () => {
     delayedToastRemoval,
     callUndoActionFromCurrentToast,
     getButtonSize,
-    showDetailsPerTabset,
     sharingAuthor,
     sharingAvatar,
     networkOnline,

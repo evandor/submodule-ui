@@ -33,6 +33,8 @@ export enum DrawerTabs {
 
 export type ListDetailLevel = 'MINIMAL' | 'SOME' | 'MAXIMAL' | 'DEFAULT'
 
+export type QuickAccess = 'search'
+
 export enum FontSize {
   SMALLER = 'SMALLER',
   SMALL = 'SMALL',
@@ -40,7 +42,7 @@ export enum FontSize {
   LARGE = 'LARGE',
   LARGER = 'LARGER',
 }
-
+export type UiDensity = 'dense' | 'thin'
 export type FolderAppearance = 'expand' | 'goInto'
 export type ToolbarIntegration = 'none' | 'tabsets' | 'all'
 
@@ -98,6 +100,7 @@ export const useUiStore = defineStore('ui', () => {
   const contentCount = ref<number>(0)
 
   const fontsize = ref<FontSize>(LocalStorage.getItem('ui.fontsize') || FontSize.DEFAULT)
+  const uiDensity = ref<UiDensity>(LocalStorage.getItem('ui.density') || 'thin')
   const folderStyle = ref<FolderAppearance>(LocalStorage.getItem('ui.folder.style') || 'goInto')
 
   const listDetailLevel = ref<ListDetailLevel>(LocalStorage.getItem('ui.detailLevel') || 'MINIMAL')
@@ -150,6 +153,10 @@ export const useUiStore = defineStore('ui', () => {
 
   const importedBookmarks = ref<string[]>([])
 
+  // quick access
+  const quickAccess = ref<string[]>((LocalStorage.getItem('ui.quickAccess') as unknown as string[]) || [])
+  const quickAccessLastChange = ref(new Date().getTime())
+
   watch(
     rightDrawer.value,
     (val: Object) => {
@@ -200,6 +207,14 @@ export const useUiStore = defineStore('ui', () => {
     hiddenMessages,
     (thresholdsVal: Object) => {
       LocalStorage.set('ui.hiddenInfoMessages', thresholdsVal)
+    },
+    { deep: true },
+  )
+
+  watch(
+    quickAccess,
+    (val: String[]) => {
+      LocalStorage.set('ui.quickAccess', val)
     },
     { deep: true },
   )
@@ -313,6 +328,22 @@ export const useUiStore = defineStore('ui', () => {
           break
         default:
           document.body.style.setProperty('font-size', '16px')
+      }
+    }
+  }
+
+  function setUiDensity(val: UiDensity) {
+    uiDensity.value = val
+    if (val) {
+      switch (val) {
+        case 'dense':
+          //useUiStore().setUi
+          break
+        case 'thin':
+          //document.body.style.setProperty('font-size', '14px')
+          break
+        default:
+        //document.body.style.setProperty('font-size', '16px')
       }
     }
   }
@@ -517,8 +548,20 @@ export const useUiStore = defineStore('ui', () => {
   }
 
   function hideTabsetList(hide: boolean) {
-    console.log('hide', hide)
     showTabsetList.value = !hide
+  }
+
+  function setQuickAccess(type: QuickAccess, value: boolean) {
+    quickAccessLastChange.value = new Date().getTime()
+    if (value && quickAccess.value.indexOf(type) < 0) {
+      quickAccess.value.push(type)
+    } else if (!value) {
+      quickAccess.value = quickAccess.value.filter((q: string) => q !== type)
+    }
+  }
+
+  function quickAccessFor(type: QuickAccess) {
+    return quickAccess.value.indexOf(type) >= 0
   }
 
   return {
@@ -596,6 +639,8 @@ export const useUiStore = defineStore('ui', () => {
     networkState,
     fontsize,
     setFontsize,
+    setUiDensity,
+    uiDensity,
     folderStyle,
     setFolderStyle,
     importedBookmarks,
@@ -605,5 +650,8 @@ export const useUiStore = defineStore('ui', () => {
     errorCount,
     hideTabsetList,
     showTabsetList,
+    setQuickAccess,
+    quickAccessFor,
+    quickAccessLastChange,
   }
 })

@@ -61,6 +61,7 @@ export const useUiStore = defineStore('ui', () => {
   const saving = ref<boolean>(false)
   const appLoading = ref<string | undefined>(undefined)
   const bookmarksLoading = ref<boolean>(false)
+  const pageCaptureLoading = ref<boolean>(false)
   const progress = ref<object | undefined>(undefined)
   const commandExecuting = ref(false)
   const watermark = ref('')
@@ -621,6 +622,7 @@ export const useUiStore = defineStore('ui', () => {
     tabBeingDragged,
     appLoading,
     bookmarksLoading,
+    pageCaptureLoading,
     progress,
     setProgress,
     stopProgress,

@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { defineStore } from 'pinia'
 import { LocalStorage } from 'quasar'
+import sanitizeAsText from 'sanitize-html'
 import { SidePanel } from 'src/app/models/SidePanel'
 import { SidePanelViews } from 'src/app/models/SidePanelViews'
 import { SHARING_AUTHOR_IDENT, SHARING_AVATAR_IDENT } from 'src/boot/constants'
@@ -42,6 +43,7 @@ export enum FontSize {
   LARGE = 'LARGE',
   LARGER = 'LARGER',
 }
+
 export type UiDensity = 'dense' | 'thin'
 export type FolderAppearance = 'expand' | 'goInto'
 export type ToolbarIntegration = 'none' | 'tabsets' | 'all'
@@ -186,7 +188,7 @@ export const useUiStore = defineStore('ui', () => {
 
   watch(sharingAuthor, (val: string | undefined) => {
     console.log('val', val)
-    LocalStorage.set(SHARING_AUTHOR_IDENT, val)
+    LocalStorage.set(SHARING_AUTHOR_IDENT, val ? sanitizeAsText(val) : undefined)
   })
 
   watch(sharingAvatar, (val: string | undefined) => {
@@ -632,7 +634,6 @@ export const useUiStore = defineStore('ui', () => {
     animateTabsListButton,
     animateAddtabButton,
     startButtonAnimation,
-    showLoginTable,
     showSwitchedToLocalInfo,
     syncing,
     saving,

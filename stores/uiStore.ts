@@ -86,6 +86,7 @@ export const useUiStore = defineStore('ui', () => {
   const animateNewTabsetButton = ref(false)
   const animateSettingsButton = ref(false)
   const animateAddtabButton = ref(false)
+  const animateMenuButton = ref(false)
   const animateBookmarksButton = ref(false)
   const animateTabsListButton = ref(false)
 
@@ -545,6 +546,10 @@ export const useUiStore = defineStore('ui', () => {
         animateAddtabButton.value = true
         setTimeout(() => (animateAddtabButton.value = false), 2000)
         break
+      case 'menu':
+        animateMenuButton.value = true
+        setTimeout(() => (animateMenuButton.value = false), 2000)
+        break
       default:
         console.log('unrecognized element name', name)
     }
@@ -633,6 +638,7 @@ export const useUiStore = defineStore('ui', () => {
     animateBookmarksButton,
     animateTabsListButton,
     animateAddtabButton,
+    animateMenuButton,
     startButtonAnimation,
     showSwitchedToLocalInfo,
     syncing,
